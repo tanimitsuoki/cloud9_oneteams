@@ -45,17 +45,15 @@ class MeetingsController extends Controller
     $meetings1 = Meeting::whereIn('tree_path_id',$tree_paths_menbers)->orderBy('day', 'desc')->get();
   
 
-        
-     $diff_day2s=Meeting::whereIn('tree_path_id', function($query) {
-           $query->select(DB::raw('tree_path_id','MAX(day) As day'))->from('meetings')->groupBy('tree_path_id');
-        })->get();
+    $diff_day2s=Meeting::whereIn('tree_path_id', function($query) {
+       $query->select(DB::raw('tree_path_id','MAX(day) As day'))->from('meetings')->groupBy('tree_path_id');})->get();
         
 
 
 
 
 
-    return view('meetings',compact('creates','meetings','auths','tree_paths','dt1','tree_paths_menbers','diff_day2s','tree_paths_boss'));
+    return view('meetings',compact('meetings','auths','tree_paths','dt1','tree_paths_menbers','diff_day2s','tree_paths_boss'));
     }
     
     
@@ -118,12 +116,11 @@ class MeetingsController extends Controller
         $roleId1=$request->tree_path_id;
         $meetings->my_tree_paths()->attach($roleId1);
         
-       $tree_paths_days = Tree_paths_day::updateOrCreate(
+        $tree_paths_days = Tree_paths_day::updateOrCreate(
                          ['user_id' => 1001],
                          ['name' => 'Takeru', 'age' => 33]
        );
-       $tree_paths_days->save(); // ここで保存される
-       
+        $tree_paths_days->save(); // ここで保存される
        
        
         return redirect('/meetings');

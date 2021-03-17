@@ -18,7 +18,7 @@
 {{ csrf_field() }}
      <table>
      <tr>
-    　　<th>面談者</th>
+    　　<th>面談</th>
     　　<th>面談実施日</th>
     　　<th>面談場所</th>
     　　<th>面談方法</th>　　

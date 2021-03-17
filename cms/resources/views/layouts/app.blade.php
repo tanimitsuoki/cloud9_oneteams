@@ -23,8 +23,8 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ 'Home' }}
+                <a>
+                   <img src="{{ asset('/image/oneteams6.jpg') }}" alt="ロゴ">
                 </a>
                 <a class="navbar-brand" href="{{ url('/meetings') }}">
                     {{ '面談一覧' }}
