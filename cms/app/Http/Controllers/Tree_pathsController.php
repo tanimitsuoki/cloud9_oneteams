@@ -32,7 +32,7 @@ class Tree_pathsController extends Controller
     
     $tree_paths = Tree_path::where('ancestor_id', $user_id )->orWhere('descendant_id', $user_id )->get();
 
-    return view('meeting_creates',compact('creates','users','tree_paths'));
+    return view('meeting_creates',compact('creates','tree_paths'));
         
     }
     
