@@ -22,24 +22,35 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a>
-                   <img src="{{ asset('/image/oneteams6.jpg') }}" alt="ロゴ">
-                </a>
-                <a class="navbar-brand" href="{{ url('/meetings') }}">
-                    {{ '面談一覧' }}
-                </a>
-               <a class="navbar-brand" href="{{ url('/meeting_creates') }}">
+            <div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent">
+
+
+                 <a class="nav-link">
+                    <img src="{{ asset('/image/oneteams7.jpg') }}" alt="ロゴ">
+                 </a>
+
+　　　　　　　　<ul class="navbar-nav">
+                 <a class="nav-link" href="{{ url('/meetings') }}">
+                     {{ '面談一覧' }}
+                 </a>
+　　　　　　　　</ul>
+　　　　　　　　<ul class="navbar-nav">
+                 <a class="nav-link" href="{{ url('/meeting_creates') }}">
                     {{ '新規面談作成' }}
-                </a>
-                  <a class="navbar-brand" href="{{ url('/creates') }}">
+                 </a>
+　　　　　　　　</ul>
+　　　　　　　　<ul class="navbar-nav">
+                 <a class="nav-link" href="{{ url('/creates') }}">
                     {{ '面談項目作成' }}
-                </a>        
-                   <a class="navbar-brand" href="{{ url('/user_lists') }}">
+                 </a> 
+　　　　　　　　</ul>
+　　　　　　　　<ul class="navbar-nav">
+                 <a class="nav-link" href="{{ url('/user_lists') }}">
                     {{ 'ユーザー管理' }}
-                </a>      
-                                </a>        
-    
+                 </a> 
+　　　　　　　　</ul>
+
+  　　　　 　　  </div>
                 
                 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -47,11 +58,6 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -85,7 +91,7 @@
                         @endguest
                     </ul>
                 </div>
-            </div>
+            
         </nav>
 
         <main class="py-4">
