@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
+@if( Auth::check() )
 
         <!-- バリデーションエラーの表示に使用-->
             @include('common.errors')
@@ -66,47 +66,80 @@
             </div>
         </div> 
         
-        
-        
-        
-        
-  @if (count($meetings) > 0)
+  @if (count($meeting_maxdays) > 0)
         <div class="card-body">
             <div class="card-body">
                 <table class="table table-striped task-table">
-                    <!-- テーブルヘッダ -->
+                  <label>最新面談一覧</label>
                     <thead>
-                        <th>面談実施者</th>
-                        <th>面談対象者</th>
+                        <th>上司名</th>
+                        <th>部下名</th>
                         <th>日付</th>
-　　　　　　　　　　　　<th>詳細</th>
                     </thead>
                     <!-- テーブル本体 -->　
                     <tbody>
-                        @foreach ($meetings as $meeting)
+                        @foreach ($meeting_maxdays as $meeting_maxday)
                         <tr>   
                          　 <td>
-                         　@foreach ($meeting->my_tree_paths as $tree_path)
-                             <div>{{ $tree_path->users1->name}}</div>
-                            @endforeach
+                             　<div>{{  $meeting_maxday->users1->name}}</div>
                              </td>                      
-                        
                              <td>
-                            @foreach ($meeting->my_tree_paths as $tree_path)
-                             <div>{{ $tree_path->users->name}}</div>
-                            @endforeach
+                             　<div>{{  $meeting_maxday->users->name}}</div>
                              </td>    
-                               
-                            
-                                <td class="table-text">
-                                    <div>{{ $meeting->day}}</div>
-                                </td>
-                               <td class="table-text">
-                                   <a href="{{ url('meeting/'.$meeting->id) }}" class="btn btn-primary">詳細</a>
-                               </td>
-                               
-            
-                               
+                             <td class="table-text">
+                               <div>{{ $meeting_maxday->day}}</div>
+                             </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>  
+        @endif      
+        
+        
+        
+        
+        
+        
+        
+  @if (count($meeting_ancestors) > 0)
+        <div class="card-body">
+            <div class="card-body">
+                <table class="table table-striped task-table">
+                  <label>上司面談一覧</label>
+                    <thead>
+                        <th>上司名</th>
+                        <th>部下名</th>
+                        <th>日付</th>
+　　　　　　　　　　　　<th>詳細</th>
+　　　　　　　　　　　　<th>削除</th>
+                    </thead>
+                    <!-- テーブル本体 -->　
+                    <tbody>
+                        @foreach ($meeting_ancestors as $meeting_ancestor)
+                        <tr>   
+                         　 <td>
+                             　<div>{{  $meeting_ancestor->users1->name}}</div>
+                             </td>                      
+                             <td>
+                             　<div>{{  $meeting_ancestor->users->name}}</div>
+                             </td>    
+                             <td class="table-text">
+                               <div>{{ $meeting_ancestor->day}}</div>
+                             </td>
+                             <td class="table-text">
+                               <a href="{{ url('meeting/'.$meeting_ancestor->id) }}" class="btn btn-primary">詳細</a>
+                             </td>
+                             <td class="table-text">
+                               <form action="{{ url('meetings/'.$meeting_ancestor->id) }}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                 <button type="submit" class="btn btn-danger">
+                                                削除
+                                 </button>
+                                </form>
+                             </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -114,6 +147,50 @@
             </div>
         </div>  
         @endif
-
- 
+        
+ @if (count($meeting_descendants) > 0)
+        <div class="card-body">
+            <div class="card-body">
+                <table class="table table-striped task-table">
+                  <label>部下面談一覧</label>
+                    <thead>
+                        <th>上司名</th>
+                        <th>部下名</th>
+                        <th>日付</th>
+　　　　　　　　　　　　<th>詳細</th>
+　　　　　　　　　　　　<th>削除</th>
+                    </thead>
+                    <!-- テーブル本体 -->　
+                    <tbody>
+                        @foreach ($meeting_descendants as $meeting_descendant)
+                        <tr>   
+                         　 <td>
+                             　<div>{{  $meeting_descendant->users1->name}}</div>
+                             </td>                      
+                             <td>
+                             　<div>{{  $meeting_descendant->users->name}}</div>
+                             </td>    
+                             <td class="table-text">
+                               <div>{{ $meeting_descendant->day}}</div>
+                             </td>
+                             <td class="table-text">
+                               <a href="{{ url('meeting/'.$meeting_descendant->id) }}" class="btn btn-primary">詳細</a>
+                             </td>
+                             <td class="table-text">
+                               <form action="{{ url('meetings/'.$meeting_descendant->id) }}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                 <button type="submit" class="btn btn-danger">
+                                                削除
+                                 </button>
+                                </form>
+                             </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>  
+        @endif
+ @endif
 @endsection

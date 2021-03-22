@@ -33,8 +33,11 @@ class CreatesController extends Controller
     
     public function index1()
     {
+        
         return view('creates');
     }
+    
+    
     public function index2()
     {
 
@@ -131,4 +134,6 @@ class CreatesController extends Controller
     {
         //
     }
+
+    
 }

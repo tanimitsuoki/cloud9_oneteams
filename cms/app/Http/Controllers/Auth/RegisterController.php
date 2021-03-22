@@ -28,8 +28,7 @@ class RegisterController extends Controller
      * Where to redirect users after registration.
      *
      * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
+
 
     /**
      * Create a new controller instance.
@@ -38,8 +37,14 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+
     }
+
+    public function getRegister()
+    {
+        return view('auth.register');
+    }
+
 
     /**
      * Get a validator for an incoming registration request.

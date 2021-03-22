@@ -23,11 +23,16 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent">
-
-
+@guest
                  <a class="nav-link">
                     <img src="{{ asset('/image/oneteams7.jpg') }}" alt="ロゴ">
                  </a>
+
+@else
+                 <a class="nav-link">
+                    <img src="{{ asset('/image/oneteams7.jpg') }}" alt="ロゴ">
+                 </a>
+
 
 　　　　　　　　<ul class="navbar-nav">
                  <a class="nav-link" href="{{ url('/meetings') }}">
@@ -40,16 +45,11 @@
                  </a>
 　　　　　　　　</ul>
 　　　　　　　　<ul class="navbar-nav">
-                 <a class="nav-link" href="{{ url('/creates') }}">
-                    {{ '面談項目作成' }}
-                 </a> 
-　　　　　　　　</ul>
-　　　　　　　　<ul class="navbar-nav">
                  <a class="nav-link" href="{{ url('/user_lists') }}">
                     {{ 'ユーザー管理' }}
                  </a> 
 　　　　　　　　</ul>
-
+@endguest
   　　　　 　　  </div>
                 
                 
@@ -65,11 +65,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -88,6 +83,11 @@
                                     </form>
                                 </div>
                             </li>
+                          @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                             </li>
+                          @endif
                         @endguest
                     </ul>
                 </div>

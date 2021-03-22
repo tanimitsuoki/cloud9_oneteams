@@ -29,13 +29,15 @@ class Tree_pathsController extends Controller
     {
     $creates = DB::select('select * from creates ORDER BY updated_at DESC LIMIT 1');
     $user_id = Auth::id();
+    $user = Auth::user();
     
-    $tree_paths = Tree_path::where('ancestor_id', $user_id )->orWhere('descendant_id', $user_id )->get();
+    $tree_descendants = Tree_path::where('ancestor_id', $user_id )->get();
+    $tree_ancestors = Tree_path::where('descendant_id', $user_id )->get();
 
-    return view('meeting_creates',compact('creates','tree_paths'));
+    return view('meeting_creates',compact('creates','tree_paths','tree_ancestors','tree_descendants','user'));
         
     }
-    
+
     
     public function show(User $user)
     {

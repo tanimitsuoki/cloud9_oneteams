@@ -27,7 +27,7 @@ class MeetingsController extends Controller
     $auths = Auth::id();
     
     $tree_paths = Tree_path::where('ancestor_id', $auths)->orWhere('descendant_id', $auths)->get(['id']);
-    $meetings = Meeting::whereIn('tree_path_id',$tree_paths)->orderBy('day', 'desc')->get();
+ 
 
 
     $diff_day = Meeting::whereIn('tree_path_id',$tree_paths)->orderBy('day', 'desc')->value('day');
@@ -36,27 +36,30 @@ class MeetingsController extends Controller
    
     //メンバー一覧
     $tree_paths_menbers = Tree_path::where('ancestor_id', $auths)->get();
-    
     //上司一覧
     $tree_paths_boss = Tree_path::where('descendant_id', $auths)->get();
     
-    
-    
+    $meeting_ancestors = Meeting::where('descendant_id',$auths)->orderBy('day', 'desc')->get();
+    $meeting_descendants = Meeting::where('ancestor_id',$auths)->orderBy('day', 'desc')->get();
+
     $meetings1 = Meeting::whereIn('tree_path_id',$tree_paths_menbers)->orderBy('day', 'desc')->get();
-  
 
-    $diff_day2s=Meeting::whereIn('tree_path_id', function($query) {
-       $query->select(DB::raw('tree_path_id','MAX(day) As day'))->from('meetings')->groupBy('tree_path_id');})->get();
-        
+    $diff_day2s=Meeting::whereIn('day',function($query) {
+       $query->select(DB::raw('MAX(day)'))->from('meetings')->groupBy('ancestor_id')->get();})->get();
 
 
+    
+    $meeting_maxdays = Meeting::with('users')
+   ->where('ancestor_id', $auths)
+   ->orWhere('descendant_id',$auths)
+   ->select('descendant_id', 'ancestor_id', DB::raw('MAX(day) as day'))
+   ->groupBy('ancestor_id', 'descendant_id')
+   ->get();
 
 
 
-    return view('meetings',compact('meetings','auths','tree_paths','dt1','tree_paths_menbers','diff_day2s','tree_paths_boss'));
+    return view('meetings',compact('meetings','auths','tree_paths','meeting_descendants','meeting_ancestors','tree_paths_menbers','diff_day2s','tree_paths_boss','meeting_maxdays'));
     }
-    
-    
     
 
     /**
@@ -77,9 +80,10 @@ class MeetingsController extends Controller
      */
     public function store(Request $request)
     {
-                //バリデーション 
+  
         $validator = Validator::make($request->all(), [
-            'tree_path_id' => 'required|max:255',
+            'ancestor_id' => 'required|max:255',
+            'descendant_id' => 'required|max:255',
             'day' => 'required|max:255',
             'times' => 'required|max:255',
             'place' => 'required|max:255',
@@ -99,7 +103,9 @@ class MeetingsController extends Controller
         
         //以下に登録処理を記述（Eloquentモデル）
         $meetings = new Meeting;
-        $meetings->tree_path_id =$request->tree_path_id;
+        $meetings->tree_path_id = '1';
+        $meetings->ancestor_id =$request->ancestor_id;
+        $meetings->descendant_id =$request->descendant_id;
         $meetings->day = $request->day;
         $meetings->times = $request->times;
         $meetings->place = $request->place;
@@ -116,13 +122,6 @@ class MeetingsController extends Controller
         $roleId1=$request->tree_path_id;
         $meetings->my_tree_paths()->attach($roleId1);
         
-        $tree_paths_days = Tree_paths_day::updateOrCreate(
-                         ['user_id' => 1001],
-                         ['name' => 'Takeru', 'age' => 33]
-       );
-        $tree_paths_days->save(); // ここで保存される
-       
-       
         return redirect('/meetings');
       
     }
@@ -172,9 +171,10 @@ public function show(Meeting $meeting)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Meeting $meeting)
     {
-        //
+        $meeting->delete();       //追加
+        return back();
     }
     
 

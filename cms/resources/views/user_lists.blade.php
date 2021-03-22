@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    
+  @if( Auth::check() )   
    <form action="{{ url('user_edits')}}" method="GET">
         <div class="a">
 　     <label class="b">ユーザー一覧</label>
@@ -77,5 +77,5 @@
             </div>
         </div>  
         @endif
-        
+     @endif   
     @endsection

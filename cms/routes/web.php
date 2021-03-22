@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 // 面談一覧画面表示（面談作成画面）
 Route::get('/', 'CreatesController@index1');
 
@@ -51,15 +53,25 @@ Route::delete('/user_lists/{user}', 'UsersController@destroy');
 // 上司部下設定削除
 Route::delete('/tree_paths/{tree_path}', 'Tree_pathsController@destroy');
 
+// 面談削除
+Route::delete('/meetings/{meeting}', 'MeetingsController@destroy');
+
+
 //ユーザー管理者編集画面表示
 Route::GET('/user_edits','UsersController@edit');
 //ユーザー管理者編集実行
 Route::post('user_edits/update','UsersController@update');
 Route::post('user_edits/update1','UsersController@update1');
 
-
-
-
-Auth::routes();
-
+Auth::routes([
+    'register' => false // ユーザ登録機能をオフに切替
+]);
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => 'auth'], function() {
+     // ここにログイン後のみのルーティングを記述
+     Route::get('/register', 'Auth\RegisterController@getRegister')->name('register');
+     Route::post('/register', 'Auth\RegisterController@postRegister')->name('register');
+ });
+
+

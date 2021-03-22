@@ -19,6 +19,15 @@ class Meeting extends Model
         protected $casts = [
         '$foos' => 'collection'
     ];
+    
+             // Userテーブルとのリレーション （従テーブル側）
+     public function users() {
+        return $this->belongsTo('App\User','descendant_id');
+    }
+    
+         public function users1() {
+        return $this->belongsTo('App\User','ancestor_id');
+    }
 
     
 }

@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
+@if( Auth::check() )  
     <!-- Bootstrapの定形コード… -->
     <div class="card-body">
         <div class="card-title">
@@ -62,5 +62,5 @@
     </div>
     <!-- 全ての投稿リスト -->
     
-
+ @endif
 @endsection

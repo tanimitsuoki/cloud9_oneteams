@@ -45,7 +45,14 @@ class User extends Authenticatable
        public function o_tree_patshs1() {
        return $this->hasMany('App\Tree_path','ancestor_id');
    }   
+   // meetingsテーブルとのリレーション （主テーブル側）
+    public function o_meetings() {
+       return $this->hasMany('App\Meeting','descendant_id');
+   }  
    
+       public function o_meetings1(){
+       return $this->hasMany('App\Meeting','ancestor_id');
+   }    
 
     
 }

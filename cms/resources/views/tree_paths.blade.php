@@ -10,7 +10,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-
+@if( Auth::check() )
 <!-- 設定者情報 -->
         <div class="card-body">
             <div class="card-body">
@@ -166,5 +166,5 @@
                 </table>      
                   </div>
                </div>           
-     
+      @endif
     @endsection
